@@ -20,8 +20,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const project = await db('projects')
-            .where({ id: req.params.id })
-            // .first()
+            .join('actions', 'actions.project_id', 'projects.id')
+            .where('projects.id', `${req.params.id}`)
+            .select()
         console.log(project)
         res.status(200).json(project)
     } catch (error) {

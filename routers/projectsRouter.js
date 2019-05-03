@@ -23,6 +23,8 @@ router.get('/:id', async (req, res) => {
             .join('actions', 'actions.project_id', 'projects.id')
             .where('projects.id', `${req.params.id}`)
             .select()
+            // .select('projects.id', 'projects.name', 'projects.description', 'projects.completed', 'actions.description', 'actions.notes', 'actions.completed')
+            // .with('actions', knex.raw(`select * from "actions" where "actions.project_id" = ?', ${req.params.id}`)).select('*').from('actions')
         console.log(project)
         res.status(200).json(project)
     } catch (error) {

@@ -21,7 +21,8 @@ router.get('/:id', async (req, res) => {
     try {
         const project = await db('projects')
             .where({ id: req.params.id })
-            .first()
+            // .first()
+        console.log(project)
         res.status(200).json(project)
     } catch (error) {
         res.status(500).json(error)

@@ -20,11 +20,21 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const project = await db('projects')
-            .join('actions', 'actions.project_id', 'projects.id')
             .where('projects.id', `${req.params.id}`)
             .select()
+
+            const answers = await db('actions')
+                .where('project_id', `${req.params.id}`)
+                .select()
+
+            project.answers = answers
+
+
+            // .join('actions', 'actions.project_id', 'projects.id')
+            // .where('projects.id', `${req.params.id}`)
+            // .select()
             // .select('projects.id', 'projects.name', 'projects.description', 'projects.completed', 'actions.description', 'actions.notes', 'actions.completed')
-            // .with('actions', knex.raw(`select * from "actions" where "actions.project_id" = ?', ${req.params.id}`)).select('*').from('actions')
+            // .with('actions', knex.raw('select * from "actions" where "actions.project_id" = ?', `${req.params.id}`)).select('*').from('actions')
         console.log(project)
         res.status(200).json(project)
     } catch (error) {
